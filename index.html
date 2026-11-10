@@ -1,0 +1,556 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI 辅助一人全栈开发与交付方法论</title><style>
+:root{--ink:#18334c;--sub:#637181;--line:#dee6ea;--accent:#087f80;--wash:#f3f7f8}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;font:16px/1.9 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:#fff}header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fffffff2;backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px max(24px,calc((100vw - 1110px)/2))}header span{font-size:12px;letter-spacing:.12em;font-weight:650}button{font:inherit;cursor:pointer}header button{background:white;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 13px;font-size:12px}.layout{max-width:1240px;margin:auto;display:grid;grid-template-columns:190px minmax(0,1fr);gap:45px;padding:0 35px}aside{position:sticky;top:95px;height:fit-content;padding-top:55px}aside p{font-size:11px;letter-spacing:.15em;color:var(--accent)}aside a{display:block;color:var(--sub);text-decoration:none;font-size:12px;line-height:1.7;padding:7px 0}aside a:hover{color:var(--accent)}main{min-width:0;padding:50px 0 60px}h1{font-size:38px;line-height:1.35;letter-spacing:-.035em;margin:0 0 28px}h2{font-size:26px;line-height:1.5;border-top:1px solid var(--line);padding-top:35px;margin:55px 0 22px;scroll-margin-top:85px}h3{font-size:18px;margin:30px 0 15px;line-height:1.6}p{margin:17px 0}main>p:first-of-type{font-size:18px;color:var(--sub)}li{margin:8px 0}ul,ol{padding-left:24px}.tablewrap{width:100%;overflow-x:auto;margin:22px 0}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.8}th{text-align:left;background:var(--wash);font-size:13px}th,td{padding:12px 15px;border-bottom:1px solid var(--line);vertical-align:top}td:first-child{font-weight:550;min-width:110px}small{display:block;font-size:13px;line-height:1.85;color:var(--sub);background:var(--wash);border-left:3px solid var(--accent);padding:14px 18px;margin:22px 0}figure{margin:25px 0 35px}.imagebutton{display:block;border:1px solid var(--line);padding:10px;background:#fff;border-radius:8px;width:100%;line-height:0}.imagebutton img{display:block;width:100%;height:auto}figcaption{text-align:center;color:var(--sub);font-size:12px;margin-top:9px}.prompt{position:relative;margin:18px 0 28px;background:var(--wash);border-radius:7px;padding:53px 22px 23px}.copy{position:absolute;right:13px;top:12px;padding:5px 11px;border:1px solid var(--line);border-radius:4px;background:white;color:var(--accent);font-size:12px}pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace}footer{border-top:1px solid var(--line);padding:25px 0;color:var(--sub);font-size:12px;margin-top:45px}dialog{border:0;padding:0;width:96vw;max-width:1800px;max-height:93vh;border-radius:8px;background:#fff}dialog::backdrop{background:#142b46bb}.zoomhead{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;background:white;padding:10px 18px;border-bottom:1px solid var(--line);font-size:13px}.zoomhead button{border:1px solid var(--line);background:white;padding:4px 12px;border-radius:4px}dialog img{display:block;width:100%;height:auto}button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}@media(max-width:900px){.layout{grid-template-columns:minmax(0,1fr);padding:0 25px}aside{display:none}main{padding-top:35px}h1{font-size:31px}h2{font-size:23px}header{padding:12px 22px}}@media(max-width:500px){.layout{padding:0 18px}h1{font-size:27px}body{font-size:15px}th,td{padding:10px 9px;font-size:12px}.prompt{padding:52px 15px 20px}pre{font-size:13px}.imagebutton{padding:4px}header span{letter-spacing:.03em;font-size:11px}header button{padding:5px 8px}h2{margin-top:40px}}@media print{@page{size:A4;margin:15mm}header,aside,.copy,dialog,figcaption{display:none!important}.layout{display:block;padding:0;max-width:none}main{padding:0}body{font-size:11px;print-color-adjust:exact;-webkit-print-color-adjust:exact}h1{font-size:27px}h2{font-size:20px;margin-top:30px;padding-top:20px;break-after:avoid}h3{font-size:15px;break-after:avoid}table{font-size:10px}figure,.prompt{break-inside:avoid}.imagebutton{border:0;padding:0}.imagebutton img{max-height:235mm;object-fit:contain}.prompt{padding:15px}pre{font-size:10px}small{font-size:10px}}
+</style></head><body><header><span>FULL LOOP · 一人全栈开发与交付</span><button type="button" onclick="window.print()">打印 / PDF</button></header><div class="layout"><aside aria-label="章节目录"><p>CONTENTS</p><a href="#section-0">名词定义</a><a href="#section-1">一、个人如何独立完成开发闭环</a><a href="#section-2">二、开发前准备</a><a href="#section-3">三、Dashboard 与管理后台：从需求文档贯通全栈</a><a href="#section-4">四、NewAPI：共享模型接入</a><a href="#section-5">五、飞书机器人：平台配置与代码一起开发</a><a href="#section-6">六、多端报告：生成、审核与发送</a><a href="#section-7">七、Skill：固化标准和偏好</a><a href="#section-8">八、定时任务：持续执行已有流程</a><a href="#section-9">九、GitLab 与 CI/CD：完成部署交付</a><a href="#section-10">十、运行反馈与下一轮开发</a></aside><main><h1>AI 辅助一人全栈开发与交付方法论</h1>
+<p>一个人负责业务定义、架构取舍和验收，借助 AI 完成数据库、前后端、飞书机器人和多端报告开发，通过 GitLab 与 CI/CD 发布，再用 Skill 固化经验、用定时任务承担重复运行。</p>
+<ul>
+<li><strong>开发交付：</strong> 需求 → 跨仓库开发 → 验证 → GitLab → CI/CD → 部署验收 → 运行维护。</li>
+<li><strong>能力复用：</strong> 数据接口 → Dashboard、机器人和报告 → Skill 与自动化 → 反馈改进。</li>
+</ul>
+<h2 id="section-0">名词定义</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>名词</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管理后台</td>
+<td>团队通过浏览器查看经营数据、维护目标和项目的业务系统</td>
+</tr>
+<tr>
+<td>前端</td>
+<td>用户看到的页面、图表、表单与交互</td>
+</tr>
+<tr>
+<td>后端</td>
+<td>处理业务规则、数据查询、权限和任务执行的服务</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>保存收入、客户、项目、配置及运行记录等数据</td>
+</tr>
+<tr>
+<td>Dashboard</td>
+<td>通过指标、图表、筛选和明细分析业务的看板</td>
+</tr>
+<tr>
+<td>GitLab／GitHub</td>
+<td>托管代码、管理版本和协作的平台</td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>按配置执行检查、测试、构建及交付／部署的流水线</td>
+</tr>
+<tr>
+<td>飞书机器人</td>
+<td>通过飞书消息和卡片与用户交互、连接业务服务的应用入口</td>
+</tr>
+<tr>
+<td>NewAPI</td>
+<td>统一模型调用入口，供不同 AI 能力共享接入与模型路由</td>
+</tr>
+<tr>
+<td>OpenCode</td>
+<td>本案例中用于理解问题、加载知识、调用工具和组织回答的 Agent 框架</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>让 Agent 以统一方式调用数据查询、计算等工具的协议</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>AI 执行特定任务的可复用规范，包含规则、样例、工具和验证方法</td>
+</tr>
+<tr>
+<td>定时任务</td>
+<td>按时间触发流程，管理执行状态、失败处理和通知的机制</td>
+</tr>
+<tr>
+<td>数据快照</td>
+<td>某次报告定版时保存的数据版本，用于复现和追溯</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-1">一、个人如何独立完成开发闭环</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>个人负责</th>
+<th>AI 辅助执行</th>
+<th>工程体系提供</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>业务目标、口径与优先级</td>
+<td>理解代码、设计实现、修改前后端</td>
+<td>Git 版本和变更记录</td>
+</tr>
+<tr>
+<td>架构取舍、权限与边界</td>
+<td>编写查询、接口、页面和交互</td>
+<td>自动测试、构建与部署</td>
+</tr>
+<tr>
+<td>真实业务验收</td>
+<td>联调、排障、文档和检查</td>
+<td>日志、回滚与任务状态</td>
+</tr>
+</tbody>
+</table></div>
+<p>每次开发按完整功能组织任务。例如“增加月度收入分析”，同时处理：</p>
+<p><strong>收入如何计算 → 数据在哪里 → 谁能查看 → 接口如何返回 → 页面如何展示 → 如何验证 → 如何发布。</strong></p>
+<h3>整体架构</h3>
+<figure><button class="imagebutton" type="button" aria-label="放大查看：整体开发与交付架构"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDQwIiBoZWlnaHQ9Ijk0MCIgdmlld0JveD0iMCAwIDEwNDAgOTQwIj48ZGVmcz48bWFya2VyIGlkPSJhcnJvdyIgbWFya2VyV2lkdGg9IjgiIG1hcmtlckhlaWdodD0iOCIgcmVmWD0iNyIgcmVmWT0iNCIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEw4IDQgTDAgOCIgZmlsbD0iIzY1ODM4YyIvPjwvbWFya2VyPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmN2Y4Ii8+PHRleHQgeD0iNDUiIHk9IjQ4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+5LiA5Liq5Lq655qE5YWo5qCI5byA5Y+R5LiO5Lqk5LuY6Zet546vPC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI4NiIgd2lkdGg9Ijg4MCIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjMTQyYjQ2IiBzdHJva2U9IiMxNDJiNDYiLz48dGV4dCB4PSI1MjAuMCIgeT0iMTE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNmZmZmZmYiPuS4quS6uu+8muS4muWKoeWumuS5ieOAgeaetuaehOWPluiIjeOAgemqjOaUtjwvdGV4dD48dGV4dCB4PSI1MjAuMCIgeT0iMTQ1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiNjNmRjZTQiPuaMh+agh+OAgee7tOW6puOAgeadg+mZkOOAgemcgOaxguS4juWujOaIkOagh+WHhjwvdGV4dD48cGF0aCBkPSJNNTIwIDE3MCBMNTIwIDE5OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjU4MzhjIiBzdHJva2Utd2lkdGg9IjEuNyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz48cmVjdCB4PSI4MCIgeT0iMjEwIiB3aWR0aD0iODgwIiBoZWlnaHQ9IjgyIiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q1ZTFlNSIvPjx0ZXh0IHg9IjUyMC4wIiB5PSIyNDIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+QUkg6L6F5Yqp6Leo5qCI5byA5Y+RPC90ZXh0Pjx0ZXh0IHg9IjUyMC4wIiB5PSIyNjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+6K+75Y+W5Luj56CBIOKGkiDmlbDmja7kuI7mjqXlj6Mg4oaSIOWJjeerr+S4juS6pOS6kiDihpIg6aqM6K+BPC90ZXh0PjxwYXRoIGQ9Ik01MjAgMjk0IEw1MjAgMzI2IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NTgzOGMiIHN0cm9rZS13aWR0aD0iMS43IiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPjxyZWN0IHg9IjgwIiB5PSIzNDAiIHdpZHRoPSIyODAiIGhlaWdodD0iOTAiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iMjIwLjAiIHk9IjM3MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij5EYXNoYm9hcmQgLyDnrqHnkIblkI7lj7A8L3RleHQ+PHRleHQgeD0iMjIwLjAiIHk9IjM5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7mlbDmja7lupPjgIHmjqXlj6PjgIHmnYPpmZDjgIHlm77ooag8L3RleHQ+PHJlY3QgeD0iMzgwIiB5PSIzNDAiIHdpZHRoPSIyODAiIGhlaWdodD0iOTAiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iNTIwLjAiIHk9IjM3MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij7po57kuabmnLrlmajkuro8L3RleHQ+PHRleHQgeD0iNTIwLjAiIHk9IjM5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7lupTnlKjorr7nva7jgIFPcGVuQ29kZeOAgeW3peWFtzwvdGV4dD48cmVjdCB4PSI2ODAiIHk9IjM0MCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSI5MCIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSI4MjAuMCIgeT0iMzcyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPuWkmuerr+aKpeWRijwvdGV4dD48dGV4dCB4PSI4MjAuMCIgeT0iMzk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPuiNieeov+OAgeW/q+eFp+OAgeWuoeaguOOAgeWIhuWPkTwvdGV4dD48dGV4dCB4PSI1MjAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMDg3ZjgwIj7lhbHkuqvln7rnoYDvvJrkuJrliqHlj6PlvoTkuI7mlbDmja7mjqXlj6MgwrcgTmV3QVBJIOaooeWei+aOpeWFpTwvdGV4dD48cGF0aCBkPSJNNTIwIDQ4MCBMNTIwIDUxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjU4MzhjIiBzdHJva2Utd2lkdGg9IjEuNyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz48cmVjdCB4PSI4MCIgeT0iNTI1IiB3aWR0aD0iODgwIiBoZWlnaHQ9IjgyIiByeD0iMTAiIGZpbGw9IiMxNDJiNDYiIHN0cm9rZT0iIzE0MmI0NiIvPjx0ZXh0IHg9IjUyMC4wIiB5PSI1NTciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2ZmZmZmZiI+R2l0TGFiICsgQ0kvQ0Q8L3RleHQ+PHRleHQgeD0iNTIwLjAiIHk9IjU4NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjYzZkY2U0Ij7liY3lkI7nq6/niYjmnKznrqHnkIYg4oaSIOa1i+ivlSDihpIg5p6E5bu6IOKGkiDpg6jnvbI8L3RleHQ+PHBhdGggZD0iTTUyMCA2MDkgTDUyMCA2NDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY1ODM4YyIgc3Ryb2tlLXdpZHRoPSIxLjciIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+PHJlY3QgeD0iODAiIHk9IjY1MSIgd2lkdGg9Ijg4MCIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSI1MjAuMCIgeT0iNjgzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPuWklue9kSBIVFRQUyDorr/pl67kuI7nur/kuIrkuJrliqHpqozmlLY8L3RleHQ+PHRleHQgeD0iNTIwLjAiIHk9IjcxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7lkI7lj7DjgIHmiqXlkYrjgIHpo57kuabkuqTkupLjgIHmlbDmja7mnYPpmZDkuI7lrp7pmYXpgIHovr48L3RleHQ+PHBhdGggZD0iTTUyMCA3MzUgTDUyMCA3NjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY1ODM4YyIgc3Ryb2tlLXdpZHRoPSIxLjciIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+PHJlY3QgeD0iODAiIHk9Ijc3OCIgd2lkdGg9IjQyNSIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSIyOTIuNSIgeT0iODEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPlNraWxs77ya5Zu65YyW5qCH5YeG5LiO57uP6aqMPC90ZXh0Pjx0ZXh0IHg9IjI5Mi41IiB5PSI4MzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+5qC356i/44CB5paH5a2X6aOO5qC844CB6KeG6KeJ5LiO566h55CG6KaB5rGCPC90ZXh0PjxyZWN0IHg9IjUzNSIgeT0iNzc4IiB3aWR0aD0iNDI1IiBoZWlnaHQ9IjgyIiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q1ZTFlNSIvPjx0ZXh0IHg9Ijc0Ny41IiB5PSI4MTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+5a6a5pe25Lu75Yqh77ya5oyB57ut5omn6KGMPC90ZXh0Pjx0ZXh0IHg9Ijc0Ny41IiB5PSI4MzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+6Kem5Y+R44CB5bCx57uq44CB5a6h5qC444CB54q25oCB5LiO6Ziy6YeN5aSNPC90ZXh0Pjx0ZXh0IHg9IjUyMCIgeT0iOTAzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPui/kOihjOaUtuWwvu+8muaXpeW/l+OAgeWbnua7muOAgeWtmOWCqOajgOafpeOAgei1hOa6kOa4heeQhiDihpIg5Y+N6aaI6L+b5YWl5LiL5LiA6L2u5byA5Y+RPC90ZXh0Pjwvc3ZnPg==" alt="整体开发与交付架构" loading="eager"></button><figcaption>整体开发与交付架构 · 点击放大</figcaption></figure>
+
+<h2 id="section-2">二、开发前准备</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>准备项</th>
+<th>具体内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指标口径</td>
+<td>收入、目标、预测的计算方式、期间与单位</td>
+</tr>
+<tr>
+<td>分析维度</td>
+<td>时间、区域、部门、产品、客户</td>
+</tr>
+<tr>
+<td>数据权限</td>
+<td>谁可以查看、维护、审核和发送</td>
+</tr>
+<tr>
+<td>数据来源</td>
+<td>表结构、字段映射、关联关系、更新方式</td>
+</tr>
+<tr>
+<td>前后端 GitLab 项目</td>
+<td>仓库地址、本地目录、分支、依赖和开发规范</td>
+</tr>
+<tr>
+<td>AI 环境</td>
+<td>NewAPI 接入、模型选择、超时与错误处理</td>
+</tr>
+<tr>
+<td>飞书环境</td>
+<td>应用、机器人、权限、事件、回调和可用范围</td>
+</tr>
+<tr>
+<td>部署环境</td>
+<td>CI/CD、服务器、域名、端口、配置、日志和回滚</td>
+</tr>
+<tr>
+<td>验收样例</td>
+<td>真实输入、预期结果及权限边界</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>仓库权限前提：</strong> 使用团队项目时，需要给独立开发者开放前后端 GitLab 项目的必要权限，包括读取、提交，以及按团队规则执行合并和流水线操作。个人实践可以自行创建 GitHub 前后端仓库，用 GitHub Actions 配置对应流程。</p>
+<p><small>用户体验提升：管理后台提供外网 HTTPS 访问，用户从电脑、手机或飞书卡片链接直接进入后台与报告页，减少网络切换和访问障碍。</small></p>
+<p>统一域名通过反向代理连接内部服务，页面和接口执行登录与数据权限校验。端口清单记录所属服务、用途、调用关系和健康检查方式。</p>
+<h3>Prompt 示例：建立开发上下文</h3>
+<div class="prompt"><button type="button" class="copy">复制 Prompt</button><pre><code>阅读前后端 GitLab 项目、数据库说明和 CI/CD 配置，
+梳理收入查询从数据表到页面的完整链路。
+
+确认计算口径、分析维度、权限、代码位置、
+本地启动方式、部署目标和回滚方式。
+
+核对外网入口、内部端口与代理关系，
+整理为后续开发上下文，不输出密钥。
+</code></pre></div>
+<h2 id="section-3">三、Dashboard 与管理后台：从需求文档贯通全栈</h2>
+<p>开发顺序：</p>
+<p><strong>整理需求 → 核对数据 → 开发后端接口 → 开发前端页面 → 权限验证 → 真实数据对账。</strong></p>
+<p>先完成“按部门查看月度收入”，再增加同比、完成率、区域贡献、客户排名和明细。需要维护目标、预测和项目进度时，增加数据表、写入接口、表单校验、事务及操作记录。</p>
+<p>需求文档明确以下内容：</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>信息</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>页面结构</td>
+<td>菜单调整、Matrix／Trends、指标卡片、客户排名</td>
+</tr>
+<tr>
+<td>复用对象</td>
+<td>已有 Dashboard 的布局、图表和交互</td>
+</tr>
+<tr>
+<td>数据规则</td>
+<td>有效合同条件、金额计算、汇率关联</td>
+</tr>
+<tr>
+<td>统计口径</td>
+<td>客户去重、订单去重、业务类型分类</td>
+</tr>
+</tbody>
+</table></div>
+<p>AI 结合需求文档、现有代码和数据库完成实现。文档存在歧义时，先核对，再开发。</p>
+<h3>Dashboard开发Prompt示例</h3>
+<figure><button class="imagebutton" type="button" aria-label="放大查看：Dashboard开发Prompt示例"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjQ2NCIgdmlld0JveD0iMCAwIDExMjAgNDY0Ij48cmVjdCB3aWR0aD0iMTEyMCIgaGVpZ2h0PSI0NjQiIHJ4PSIxNCIgZmlsbD0iI2YzZjdmOCIvPjxnIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZmlsbD0iIzE4MzM0YyI+PHRleHQgeD0iNDAiIHk9IjUwIiBmb250LXNpemU9IjI1IiBmb250LXdlaWdodD0iNjAwIj5EYXNoYm9hcmQg5byA5Y+RIFByb21wdCDnpLrkvovvvIjpgJrnlKjnpLrkvovvvIk8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjEwNSIgZm9udC1zaXplPSIyMCI+5Zyo546w5pyJ566h55CG5ZCO5Y+w5paw5aKe5pS25YWl5YiG5p6Q55yL5p2/77yM5aSN55So5bey5pyJ5biD5bGA5LiO57uE5Lu244CCPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNTciIGZvbnQtc2l6ZT0iMjAiPumhtemdouWMheWQq++8muaMh+agh+WNoeeJh+OAgemDqOmXqOefqemYteOAgeaciOW6pui2i+WKv+WSjOWuouaIt+aOkuWQjeOAgjwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMjA5IiBmb250LXNpemU9IjIwIj7mjIfmoIfljIXlkKvvvJrntK/orqHmlLblhaXjgIHlhajlubTnm67moIfjgIHlrozmiJDnjofjgIHlkIzmr5TlkozlrqLmiLfmlbDjgII8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjI2MSIgZm9udC1zaXplPSIyMCI+6K+35qC45a+55pWw5o2u5p2l5rqQ44CB57uf6K6h5pyf6Ze044CB6YeR6aKd5Y2V5L2N44CB5YWz6IGU5YWz57O75ZKM5Y676YeN6KeE5YiZ44CCPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIzMTMiIGZvbnQtc2l6ZT0iMjAiPuWFiOWvuei0puecn+Wunuagt+S+i++8jOWGjeWujOaIkOWQjuerr+aOpeWPo+OAgeWJjeerr+mhtemdouS4juadg+mZkOagoemqjOOAgjwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMzY1IiBmb250LXNpemU9IjIwIj7pqozor4HnrZvpgInjgIHmsYfmgLvkuI7mmI7nu4bkuIDoh7TmgKfvvIzku6Xlj4rmoYzpnaLlkozmiYvmnLrooajnjrDjgII8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjQxNyIgZm9udC1zaXplPSIyMCI+5pyA5ZCO5o+Q5Lqk5Luj56CB77yM6Lef6LiqIENJL0NE77yM5a6M5oiQ6YOo572y5LiO5Lia5Yqh6aqM5pS244CCPC90ZXh0PjwvZz48L3N2Zz4=" alt="Dashboard开发Prompt示例" loading="eager"></button><figcaption>Dashboard开发Prompt示例 · 点击放大</figcaption></figure>
+
+<h2 id="section-4">四、NewAPI：共享模型接入</h2>
+<p>机器人问答、报告分析、翻译和图片生成，通过 NewAPI 共享接入地址、认证和模型路由。各能力分别配置模型、提示词、超时和输出要求。</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>分工</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>经营问答</td>
+<td>理解问题、选择工具、解释结果</td>
+</tr>
+<tr>
+<td>报告分析</td>
+<td>根据真实数据生成分析草稿</td>
+</tr>
+<tr>
+<td>翻译</td>
+<td>转换语言，保护数字和专有名称</td>
+</tr>
+<tr>
+<td>分析制图</td>
+<td>先确认数据，再交给对应能力生成</td>
+</tr>
+</tbody>
+</table></div>
+<p>文本和图片等协议由对应适配器处理，分别记录调用失败、数据不足和输出不合规。</p>
+<h3>Prompt 示例：复用模型接入</h3>
+<div class="prompt"><button type="button" class="copy">复制 Prompt</button><pre><code>复用现有 NewAPI 通道开发报告分析能力。
+
+共享接入地址与认证，单独配置模型、超时和输出要求。
+输入保留数据来源，输出区分事实、分析和建议。
+
+分别处理调用失败、数据不足和输出不合规，
+避免在不同模块重复维护供应商接入逻辑。
+</code></pre></div>
+<h2 id="section-5">五、飞书机器人：平台配置与代码一起开发</h2>
+<h3>1. 确定机器人能回答的问题</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>问题类型</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指标查询</td>
+<td>本月收入是多少？</td>
+</tr>
+<tr>
+<td>对比分析</td>
+<td>与去年同期相比有什么变化？</td>
+</tr>
+<tr>
+<td>维度拆解</td>
+<td>各区域贡献多少？</td>
+</tr>
+<tr>
+<td>排名明细</td>
+<td>收入最高的客户有哪些？</td>
+</tr>
+<tr>
+<td>进度查询</td>
+<td>哪些项目延期？</td>
+</tr>
+<tr>
+<td>综合分析</td>
+<td>目标缺口主要在哪里？</td>
+</tr>
+</tbody>
+</table></div>
+<h3>2. 配置飞书应用</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>设置项</th>
+<th>主要内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用与机器人</td>
+<td>创建应用、启用机器人、配置名称和功能说明</td>
+</tr>
+<tr>
+<td>权限</td>
+<td>按功能申请消息、群、通讯录、图片及文件等权限</td>
+</tr>
+<tr>
+<td>可用范围与发布</td>
+<td>确认哪些用户和群可以使用，发布应用版本</td>
+</tr>
+<tr>
+<td>事件接收</td>
+<td>WebSocket 长连接或 HTTP 事件回调</td>
+</tr>
+<tr>
+<td>卡片与授权回调</td>
+<td>按所用能力配置对应回调方式与地址</td>
+</tr>
+<tr>
+<td>凭据与运行</td>
+<td>保存配置，处理连接恢复、日志和错误</td>
+</tr>
+</tbody>
+</table></div>
+<p>WebSocket 由服务主动连接飞书接收事件；HTTP 回调需要可达的 HTTPS 地址。消息事件、卡片动作和网页授权分别配置与验证。</p>
+<p>飞书应用可用范围与业务数据权限分别校验。</p>
+<h3>飞书交互架构</h3>
+<figure><button class="imagebutton" type="button" aria-label="放大查看：飞书机器人交互架构"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjM2MCIgdmlld0JveD0iMCAwIDExMjAgMzYwIj48cmVjdCB3aWR0aD0iMTEyMCIgaGVpZ2h0PSIzNjAiIHJ4PSIxNCIgZmlsbD0iI2YzZjdmOCIvPjxnIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZmlsbD0iIzE4MzM0YyI+PHRleHQgeD0iNDAiIHk9IjUwIiBmb250LXNpemU9IjI1IiBmb250LXdlaWdodD0iNjAwIj7po57kuabmnLrlmajkurrkuqTkupLmnrbmnoQ8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjEwNSIgZm9udC1zaXplPSIyMCI+6aOe5Lmm55So5oi3IOKGkiDpo57kuablupTnlKjvvIjmnYPpmZDjgIHkuovku7bjgIHlj6/nlKjojIPlm7TvvIk8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjE1NyIgZm9udC1zaXplPSIyMCI+5LqL5Lu26YCa6L+HIFdlYlNvY2tldCDplb/ov57mjqXmiJYgSFRUUCDlm57osIPliLDovr4gUHl0aG9uIOacjeWKoTwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMjA5IiBmb250LXNpemU9IjIwIj5QeXRob27vvJrouqvku73jgIHmtojmga/jgIHkvJror50g4oaSIE9wZW5Db2Rl77ya6Zeu6aKY55CG6Kej5LiO5bel5YW36LCD55SoPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIyNjEiIGZvbnQtc2l6ZT0iMjAiPk9wZW5Db2RlIOKGlCBOZXdBUEkg5qih5Z6L5pyN5Yqh77ybT3BlbkNvZGUg4oaUIOWPl+aOp+afpeivouS4juiuoeeul+W3peWFtzwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMzEzIiBmb250LXNpemU9IjIwIj7lt6Xlhbcg4oaUIOS4muWKoeaVsOaNruW6k++8m+acgOe7iOWbnuetlCDihpIgUHl0aG9uIOKGkiDpo57kuabljaHniYc8L3RleHQ+PC9nPjwvc3ZnPg==" alt="飞书机器人交互架构" loading="eager"></button><figcaption>飞书机器人交互架构 · 点击放大</figcaption></figure>
+
+<h3>3. 用 OpenCode 收敛问答链路</h3>
+<p>OpenCode 负责问题理解、知识加载、工具调用与最终回答；Python 服务负责身份、消息、会话和卡片封装。</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>约束</th>
+<th>实现方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>业务知识</td>
+<td>数据字典、指标口径、查询示例</td>
+</tr>
+<tr>
+<td>数据访问</td>
+<td>只读 SQL、表白名单、超时、行数和查询次数限制</td>
+</tr>
+<tr>
+<td>数值计算</td>
+<td>同比、完成率、贡献等交给确定性工具</td>
+</tr>
+<tr>
+<td>回答范围</td>
+<td>明确期间、范围和证据；数据不足时说明</td>
+</tr>
+<tr>
+<td>回答链路</td>
+<td>OpenCode 输出最终回答，Python 不再调用模型改写</td>
+</tr>
+</tbody>
+</table></div>
+<h3>OpenCode 查询与回答链路</h3>
+<figure><button class="imagebutton" type="button" aria-label="放大查看：OpenCode 受控查询与回答链路"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDQwIiBoZWlnaHQ9IjU3MCIgdmlld0JveD0iMCAwIDEwNDAgNTcwIj48ZGVmcz48bWFya2VyIGlkPSJhcnJvdyIgbWFya2VyV2lkdGg9IjgiIG1hcmtlckhlaWdodD0iOCIgcmVmWD0iNyIgcmVmWT0iNCIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEw4IDQgTDAgOCIgZmlsbD0iIzY1ODM4YyIvPjwvbWFya2VyPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmN2Y4Ii8+PHRleHQgeD0iNDUiIHk9IjQ4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+6aOe5Lmm57uP6JCl5YiG5p6Q5py65Zmo5Lq6IMK3IOmAu+i+keaetuaehDwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMTQyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+5raI5oGv5LiO6Lqr5Lu9PC90ZXh0PjxyZWN0IHg9IjE4MCIgeT0iMTAwIiB3aWR0aD0iMjU0IiBoZWlnaHQ9IjgyIiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q1ZTFlNSIvPjx0ZXh0IHg9IjMwNy4wIiB5PSIxMzIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+6aOe5Lmm55So5oi3PC90ZXh0Pjx0ZXh0IHg9IjMwNy4wIiB5PSIxNTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+56eB6IGKIC8g576k5YaFIEA8L3RleHQ+PHJlY3QgeD0iNDU4IiB5PSIxMDAiIHdpZHRoPSIyNTQiIGhlaWdodD0iODIiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iNTg1LjAiIHk9IjEzMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij7po57kuablupTnlKg8L3RleHQ+PHRleHQgeD0iNTg1LjAiIHk9IjE1OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7mnYPpmZAgLyDkuovku7YgLyDlj6/nlKjojIPlm7Q8L3RleHQ+PHJlY3QgeD0iNzM2IiB5PSIxMDAiIHdpZHRoPSIyNTQiIGhlaWdodD0iODIiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iODYzLjAiIHk9IjEzMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij5QeXRob24g5pyN5YqhPC90ZXh0Pjx0ZXh0IHg9Ijg2My4wIiB5PSIxNTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+6Lqr5Lu9IC8g5Lya6K+dIC8g5Y2h54mHPC90ZXh0PjxwYXRoIGQ9Ik01ODUgMTg1IEw1ODUgMjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiM2NTgzOGMiIHN0cm9rZS13aWR0aD0iMS43IiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPjx0ZXh0IHg9IjQwIiB5PSIyOTIiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7mjqjnkIbkuI7nvJbmjpI8L3RleHQ+PHJlY3QgeD0iMTgwIiB5PSIyNTAiIHdpZHRoPSIyNTQiIGhlaWdodD0iODIiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iMzA3LjAiIHk9IjI4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij7kuJrliqHnn6Xor4Y8L3RleHQ+PHRleHQgeD0iMzA3LjAiIHk9IjMwOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj5TY2hlbWEgLyDlj6PlvoQgLyDmn6Xor6LnpLrkvos8L3RleHQ+PHJlY3QgeD0iNDU4IiB5PSIyNTAiIHdpZHRoPSIyNTQiIGhlaWdodD0iODIiIHJ4PSIxMCIgZmlsbD0iIzE0MmI0NiIgc3Ryb2tlPSIjMTQyYjQ2Ii8+PHRleHQgeD0iNTg1LjAiIHk9IjI4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZmZmZmZmIj5PcGVuQ29kZTwvdGV4dD48dGV4dCB4PSI1ODUuMCIgeT0iMzA5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiNjNmRjZTQiPueQhuino+mXrumimCDihpIg5bel5YW3IOKGkiDlm57nrZQ8L3RleHQ+PHJlY3QgeD0iNzM2IiB5PSIyNTAiIHdpZHRoPSIyNTQiIGhlaWdodD0iODIiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iODYzLjAiIHk9IjI4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij5OZXdBUEk8L3RleHQ+PHRleHQgeD0iODYzLjAiIHk9IjMwOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7nu5/kuIDmqKHlnovmjqXlhaU8L3RleHQ+PHBhdGggZD0iTTU4NSAzMzUgTDU4NSAzOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY1ODM4YyIgc3Ryb2tlLXdpZHRoPSIxLjciIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+PHRleHQgeD0iNDAiIHk9IjQ0MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPuS6i+WunuS4juiuoeeulzwvdGV4dD48cmVjdCB4PSIxODAiIHk9IjQwMCIgd2lkdGg9IjI1NCIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSIzMDcuMCIgeT0iNDMyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPk15U1FMIE1DUDwvdGV4dD48dGV4dCB4PSIzMDcuMCIgeT0iNDU5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPlNRTCBHdWFyZCAvIOWPquivu+afpeivojwvdGV4dD48cmVjdCB4PSI0NTgiIHk9IjQwMCIgd2lkdGg9IjI1NCIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSI1ODUuMCIgeT0iNDMyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPuS4muWKoeaVsOaNruW6kzwvdGV4dD48dGV4dCB4PSI1ODUuMCIgeT0iNDU5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPuecn+WunuS4muWKoeaVsOaNrjwvdGV4dD48cmVjdCB4PSI3MzYiIHk9IjQwMCIgd2lkdGg9IjI1NCIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSI4NjMuMCIgeT0iNDMyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPuiuoeeul+W3peWFtzwvdGV4dD48dGV4dCB4PSI4NjMuMCIgeT0iNDU5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPuWQjOavlCAvIOi0oeeMriAvIOWujOaIkOeOhzwvdGV4dD48dGV4dCB4PSI1MjAiIHk9IjU0NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7kuovku7bpgJrov4cgV2ViU29ja2V0IOaIliBIVFRQIOWbnuiwg+aOpeaUtu+8m+acgOe7iOWbnuetlOeUsSBQeXRob24g5bCB6KOF5bm26L+U5Zue6aOe5Lmm44CCPC90ZXh0Pjwvc3ZnPg==" alt="OpenCode 受控查询与回答链路" loading="eager"></button><figcaption>OpenCode 受控查询与回答链路 · 点击放大</figcaption></figure>
+
+<h3>Prompt 示例：开发飞书机器人</h3>
+<div class="prompt"><button type="button" class="copy">复制 Prompt</button><pre><code>开发飞书经营分析机器人，使用 OpenCode 和现有 NewAPI。
+支持收入查询、同比、区域贡献、客户排名和项目进度追问。
+
+同时完成飞书应用设置清单：
+机器人能力、权限、可用范围、事件订阅、
+WebSocket 连接及所需回调地址。
+
+加载业务口径、Schema 和查询示例，
+通过受控工具查询，通过程序计算数值。
+实现私聊、群内 @、会话隔离、反馈和异常提示。
+
+验证正常、歧义、无数据、越权与连续追问场景，
+并完成飞书端实际回复验收。
+</code></pre></div>
+<h2 id="section-6">六、多端报告：生成、审核与发送</h2>
+<p>报告流程：</p>
+<p><strong>生成分析草稿，定版数据快照 → 人工审核保存 → 手机／飞书／邮件渲染 → 发送归档。</strong></p>
+<p>草稿记录数据与来源，定版后绑定快照，审核和发送针对同一版本。</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>渠道</th>
+<th>适配重点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>移动页面</td>
+<td>阅读布局、筛选、明细、登录与历史查看</td>
+</tr>
+<tr>
+<td>飞书卡片</td>
+<td>内容大小、图表、分页、按钮与报告链接</td>
+</tr>
+<tr>
+<td>HTML 邮件</td>
+<td>表格布局、内联样式、图片及客户端兼容</td>
+</tr>
+</tbody>
+</table></div>
+<p>报告按指标、趋势、区域贡献、重点客户和经营分析等模块组织，各渠道选择不同内容组合。</p>
+<p>发送记录保存接收对象、渠道、内容版本、实际渲染结果与状态。历史链接读取发送时的内容；结果不确定时先核查，再决定是否重发。</p>
+<h3>Prompt 示例：开发多端报告</h3>
+<div class="prompt"><button type="button" class="copy">复制 Prompt</button><pre><code>基于现有收入分析开发月度经营报告。
+
+流程：
+生成分析草稿，定版数据快照，
+人工审核保存后，适配手机、飞书和 HTML 邮件。
+
+各渠道引用相同事实与已保存分析，
+支持按渠道选择报告内容。
+链接使用外网 HTTPS 地址，适配飞书 WebView，
+登录后按权限读取原发送版本。
+
+实现防重复、发送归档和失败处理，
+分别验证预览、链接访问及实际送达。
+</code></pre></div>
+<h2 id="section-7">七、Skill：固化标准和偏好</h2>
+<p>当任务<strong>经常重复、标准相对稳定，而且每次都需要解释背景或纠正结果</strong>时，适合开发 Skill。</p>
+<p>例如生成符合团队管理风格的经营报告：</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>输入材料</th>
+<th>提炼内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>历史报告与优秀样稿</td>
+<td>结构、信息取舍、分析深度</td>
+</tr>
+<tr>
+<td>文字风格与修改案例</td>
+<td>标题、措辞、篇幅、初稿到定稿的变化</td>
+</tr>
+<tr>
+<td>图片与图表要求</td>
+<td>配色、版式、图表选择、标注与单位</td>
+</tr>
+<tr>
+<td>管理风格</td>
+<td>关注点、风险表达、建议的具体程度</td>
+</tr>
+<tr>
+<td>业务口径与禁用规则</td>
+<td>数字使用、证据要求、应避免的表述</td>
+</tr>
+</tbody>
+</table></div>
+<p>开发过程：</p>
+<p><strong>输入材料 → 提炼规则 → 使用新材料试生成 → 人工反馈 → 修订验证 → 固化 Skill。</strong></p>
+<p>Skill 写清触发条件、输入、工具、执行步骤、输出和验证方法。样稿作为参考，稳定操作配套脚本；本期数据和具体业务判断每次输入。</p>
+<p>数据分析、飞书配置检查、部署验收和排障也可按此方式整理。</p>
+<h3>Prompt 示例：开发报告 Skill</h3>
+<div class="prompt"><button type="button" class="copy">复制 Prompt</button><pre><code>根据历史报告、定稿修改记录和视觉样例，
+开发“团队经营报告”Skill。
+
+提炼结构、文字风格、图表要求和管理关注点。
+总结保留什么、删去什么、风险如何表达、
+建议具体到什么程度，以及应避免的写法。
+
+将表达规则与历史业务事实分开。
+使用新材料试生成，根据我的反馈修订，
+验证后固化为 Skill，保留典型样例和检查步骤。
+</code></pre></div>
+<h2 id="section-8">八、定时任务：持续执行已有流程</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>设计项</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>触发</td>
+<td>时间、时区、统计期间和范围</td>
+</tr>
+<tr>
+<td>就绪条件</td>
+<td>数据是否完整、是否已审核</td>
+</tr>
+<tr>
+<td>执行控制</td>
+<td>状态、超时、有限重试、防重复</td>
+</tr>
+<tr>
+<td>反馈</td>
+<td>日志及完成、失败、需人工处理时的通知</td>
+</tr>
+</tbody>
+</table></div>
+<p>应用内任务由调度器调用已有代码或接口；需要 AI 的步骤，由能加载相应 Skill 的执行环境完成。</p>
+<h3>Prompt 示例：定时报告</h3>
+<div class="prompt"><button type="button" class="copy">复制 Prompt</button><pre><code>将现有月报流程接入定时任务。
+
+明确北京时间、统计月份、部门范围、
+数据就绪条件和审核要求。
+数据未就绪时等待，未经审核不得发送。
+
+复用已有流程，实现状态、超时、有限重试、
+防重复和执行日志。
+完成、失败或需人工处理时通知。
+先模拟验证，再按授权验证真实交付。
+</code></pre></div>
+<h2 id="section-9">九、GitLab 与 CI/CD：完成部署交付</h2>
+<p><strong>本地开发与验证 → 分别提交 GitLab → CI/CD 测试构建部署 → 平台配置发布 → 线上业务验收 → 回滚准备与资源清理。</strong></p>
+<p>一次需求同时记录前端、后端、数据库和飞书配置变更：</p>
+<ol>
+<li>前后端分别提交，记录版本与数据库变更的对应关系。</li>
+<li>跟踪流水线，失败后定位、修复并重新验证。</li>
+<li>核对数据库迁移，先发布兼容后端，再发布前端。</li>
+<li>完成飞书应用配置与版本发布。</li>
+<li>验收外网访问、登录、数据、权限、机器人交互、报告链接和实际送达。</li>
+<li>保留回滚版本，检查日志、磁盘和文件存储，清理本次无用资源。</li>
+</ol>
+<p>部署成功、接口响应、文件上传成功和消息送达分别验证。</p>
+<p>共享服务器只清理已确认属于本项目、已停止且无后续用途的临时资源。新版本健康后，保留当前版本和至少一个已验证回滚版本，再清理多余产物。不删除业务文件、数据库、数据卷或挂载目录；构建缓存按归属、年龄和容量限制回收，不执行无范围清理。</p>
+<h3>Prompt 示例：完成交付</h3>
+<div class="prompt"><button type="button" class="copy">复制 Prompt</button><pre><code>完成本次功能的前后端交付。
+
+检查变更并执行必要验证，
+分别提交 GitLab，跟踪 CI/CD 直到结果明确。
+核对数据库迁移、环境配置和飞书平台配置。
+
+上线后验证真实业务路径与多端结果。
+记录前后端版本、数据库与配置变更、
+回滚点和未验证事项。
+
+健康检查通过后，清理本项目本次无用临时资源，
+保留已验证回滚版本，记录磁盘与文件存储状态。
+</code></pre></div>
+<h2 id="section-10">十、运行反馈与下一轮开发</h2>
+<p>使用问题进入下一轮需求，已验证的标准和操作写入 Skill，重复流程交给定时任务。</p>
+<figure><button class="imagebutton" type="button" aria-label="放大查看：开发、部署、Skill 与运行能力的反馈闭环"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDQwIiBoZWlnaHQ9Ijk0MCIgdmlld0JveD0iMCAwIDEwNDAgOTQwIj48ZGVmcz48bWFya2VyIGlkPSJhcnJvdyIgbWFya2VyV2lkdGg9IjgiIG1hcmtlckhlaWdodD0iOCIgcmVmWD0iNyIgcmVmWT0iNCIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEw4IDQgTDAgOCIgZmlsbD0iIzY1ODM4YyIvPjwvbWFya2VyPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmN2Y4Ii8+PHRleHQgeD0iNDUiIHk9IjQ4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+5LiA5Liq5Lq655qE5YWo5qCI5byA5Y+R5LiO5Lqk5LuY6Zet546vPC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI4NiIgd2lkdGg9Ijg4MCIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjMTQyYjQ2IiBzdHJva2U9IiMxNDJiNDYiLz48dGV4dCB4PSI1MjAuMCIgeT0iMTE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNmZmZmZmYiPuS4quS6uu+8muS4muWKoeWumuS5ieOAgeaetuaehOWPluiIjeOAgemqjOaUtjwvdGV4dD48dGV4dCB4PSI1MjAuMCIgeT0iMTQ1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiNjNmRjZTQiPuaMh+agh+OAgee7tOW6puOAgeadg+mZkOOAgemcgOaxguS4juWujOaIkOagh+WHhjwvdGV4dD48cGF0aCBkPSJNNTIwIDE3MCBMNTIwIDE5OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjU4MzhjIiBzdHJva2Utd2lkdGg9IjEuNyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz48cmVjdCB4PSI4MCIgeT0iMjEwIiB3aWR0aD0iODgwIiBoZWlnaHQ9IjgyIiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q1ZTFlNSIvPjx0ZXh0IHg9IjUyMC4wIiB5PSIyNDIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+QUkg6L6F5Yqp6Leo5qCI5byA5Y+RPC90ZXh0Pjx0ZXh0IHg9IjUyMC4wIiB5PSIyNjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+6K+75Y+W5Luj56CBIOKGkiDmlbDmja7kuI7mjqXlj6Mg4oaSIOWJjeerr+S4juS6pOS6kiDihpIg6aqM6K+BPC90ZXh0PjxwYXRoIGQ9Ik01MjAgMjk0IEw1MjAgMzI2IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NTgzOGMiIHN0cm9rZS13aWR0aD0iMS43IiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPjxyZWN0IHg9IjgwIiB5PSIzNDAiIHdpZHRoPSIyODAiIGhlaWdodD0iOTAiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iMjIwLjAiIHk9IjM3MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij5EYXNoYm9hcmQgLyDnrqHnkIblkI7lj7A8L3RleHQ+PHRleHQgeD0iMjIwLjAiIHk9IjM5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7mlbDmja7lupPjgIHmjqXlj6PjgIHmnYPpmZDjgIHlm77ooag8L3RleHQ+PHJlY3QgeD0iMzgwIiB5PSIzNDAiIHdpZHRoPSIyODAiIGhlaWdodD0iOTAiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDVlMWU1Ii8+PHRleHQgeD0iNTIwLjAiIHk9IjM3MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTQyYjQ2Ij7po57kuabmnLrlmajkuro8L3RleHQ+PHRleHQgeD0iNTIwLjAiIHk9IjM5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7lupTnlKjorr7nva7jgIFPcGVuQ29kZeOAgeW3peWFtzwvdGV4dD48cmVjdCB4PSI2ODAiIHk9IjM0MCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSI5MCIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSI4MjAuMCIgeT0iMzcyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPuWkmuerr+aKpeWRijwvdGV4dD48dGV4dCB4PSI4MjAuMCIgeT0iMzk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPuiNieeov+OAgeW/q+eFp+OAgeWuoeaguOOAgeWIhuWPkTwvdGV4dD48dGV4dCB4PSI1MjAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMDg3ZjgwIj7lhbHkuqvln7rnoYDvvJrkuJrliqHlj6PlvoTkuI7mlbDmja7mjqXlj6MgwrcgTmV3QVBJIOaooeWei+aOpeWFpTwvdGV4dD48cGF0aCBkPSJNNTIwIDQ4MCBMNTIwIDUxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjU4MzhjIiBzdHJva2Utd2lkdGg9IjEuNyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz48cmVjdCB4PSI4MCIgeT0iNTI1IiB3aWR0aD0iODgwIiBoZWlnaHQ9IjgyIiByeD0iMTAiIGZpbGw9IiMxNDJiNDYiIHN0cm9rZT0iIzE0MmI0NiIvPjx0ZXh0IHg9IjUyMC4wIiB5PSI1NTciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2ZmZmZmZiI+R2l0TGFiICsgQ0kvQ0Q8L3RleHQ+PHRleHQgeD0iNTIwLjAiIHk9IjU4NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjYzZkY2U0Ij7liY3lkI7nq6/niYjmnKznrqHnkIYg4oaSIOa1i+ivlSDihpIg5p6E5bu6IOKGkiDpg6jnvbI8L3RleHQ+PHBhdGggZD0iTTUyMCA2MDkgTDUyMCA2NDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY1ODM4YyIgc3Ryb2tlLXdpZHRoPSIxLjciIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+PHJlY3QgeD0iODAiIHk9IjY1MSIgd2lkdGg9Ijg4MCIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSI1MjAuMCIgeT0iNjgzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPuWklue9kSBIVFRQUyDorr/pl67kuI7nur/kuIrkuJrliqHpqozmlLY8L3RleHQ+PHRleHQgeD0iNTIwLjAiIHk9IjcxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFNDLE1pY3Jvc29mdCBZYUhlaSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNjE3MDgwIj7lkI7lj7DjgIHmiqXlkYrjgIHpo57kuabkuqTkupLjgIHmlbDmja7mnYPpmZDkuI7lrp7pmYXpgIHovr48L3RleHQ+PHBhdGggZD0iTTUyMCA3MzUgTDUyMCA3NjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY1ODM4YyIgc3Ryb2tlLXdpZHRoPSIxLjciIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+PHJlY3QgeD0iODAiIHk9Ijc3OCIgd2lkdGg9IjQyNSIgaGVpZ2h0PSI4MiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkNWUxZTUiLz48dGV4dCB4PSIyOTIuNSIgeT0iODEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNDJiNDYiPlNraWxs77ya5Zu65YyW5qCH5YeG5LiO57uP6aqMPC90ZXh0Pjx0ZXh0IHg9IjI5Mi41IiB5PSI4MzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+5qC356i/44CB5paH5a2X6aOO5qC844CB6KeG6KeJ5LiO566h55CG6KaB5rGCPC90ZXh0PjxyZWN0IHg9IjUzNSIgeT0iNzc4IiB3aWR0aD0iNDI1IiBoZWlnaHQ9IjgyIiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q1ZTFlNSIvPjx0ZXh0IHg9Ijc0Ny41IiB5PSI4MTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE0MmI0NiI+5a6a5pe25Lu75Yqh77ya5oyB57ut5omn6KGMPC90ZXh0Pjx0ZXh0IHg9Ijc0Ny41IiB5PSI4MzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBTQyxNaWNyb3NvZnQgWWFIZWksc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzYxNzA4MCI+6Kem5Y+R44CB5bCx57uq44CB5a6h5qC444CB54q25oCB5LiO6Ziy6YeN5aSNPC90ZXh0Pjx0ZXh0IHg9IjUyMCIgeT0iOTAzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgU0MsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM2MTcwODAiPui/kOihjOaUtuWwvu+8muaXpeW/l+OAgeWbnua7muOAgeWtmOWCqOajgOafpeOAgei1hOa6kOa4heeQhiDihpIg5Y+N6aaI6L+b5YWl5LiL5LiA6L2u5byA5Y+RPC90ZXh0Pjwvc3ZnPg==" alt="开发、部署、Skill 与运行能力的反馈闭环" loading="eager"></button><figcaption>开发、部署、Skill 与运行能力的反馈闭环 · 点击放大</figcaption></figure>
+
+<p>每次交付留下四类记录：</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>记录</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>代码版本</td>
+<td>前后端提交、数据库迁移与配置变更</td>
+</tr>
+<tr>
+<td>发布结果</td>
+<td>测试、构建、部署和飞书应用版本</td>
+</tr>
+<tr>
+<td>业务验收</td>
+<td>访问、数据、权限、交互与实际交付结果</td>
+</tr>
+<tr>
+<td>运行保障</td>
+<td>日志、回滚版本、资源清理和待处理事项</td>
+</tr>
+</tbody>
+</table></div><footer>公开分享版 · 业务示例已通用化 · 图片已内嵌，支持离线阅读</footer></main></div><dialog id="zoom" aria-labelledby="zoomtitle"><div class="zoomhead"><span id="zoomtitle"></span><button type="button" id="closezoom">关闭 ×</button></div><img alt=""></dialog><script>document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{const value=b.nextElementSibling.textContent;try{if(navigator.clipboard&&isSecureContext){await navigator.clipboard.writeText(value)}else{const t=document.createElement('textarea');t.value=value;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();if(!ok)throw new Error()}b.textContent='已复制'}catch(e){b.textContent='请选中文字复制'}setTimeout(()=>b.textContent='复制 Prompt',1800)}));const modal=document.getElementById('zoom');document.querySelectorAll('.imagebutton').forEach(b=>b.addEventListener('click',()=>{const image=b.querySelector('img');modal.querySelector('img').src=image.src;modal.querySelector('img').alt=image.alt;document.getElementById('zoomtitle').textContent=image.alt;modal.showModal()}));document.getElementById('closezoom').addEventListener('click',()=>modal.close());modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});</script></body></html>
